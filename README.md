@@ -1,5 +1,9 @@
 # BTCMarkets - Typescript Wrapper
 
+Build
+
+`npm run build`
+
 Usage
 
 ```typescript
