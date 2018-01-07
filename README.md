@@ -6,7 +6,7 @@ Usage
 // Import Class
 import { BTCMarkets } from '../src/index';
 
-// Initalise Class with Public & Private API Key
+// Initalise Class
 const btcmarkets = new BTCMarkets();
 
 // Request
