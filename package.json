@@ -1,0 +1,21 @@
+{
+  "name": "btcmarkets",
+  "version": "1.0.0",
+  "description": "Wrapper client for BTCMarkets, Australian crypto exchange.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run test",
+    "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts"
+  },
+  "author": "Michael Kimpton",
+  "license": "WTFPL",
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "utf8": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^2.6.2"
+  }
+}
