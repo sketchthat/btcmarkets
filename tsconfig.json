@@ -10,9 +10,10 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
+    "rootDir": "src",
     "typeRoots": [
       "node_modules/@types"
-    ],
+    ]
   },
   "include": [
     "src/**/*.ts"

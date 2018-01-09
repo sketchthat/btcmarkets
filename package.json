@@ -2,7 +2,7 @@
   "name": "btcmarkets",
   "version": "1.0.0",
   "description": "Wrapper client for BTCMarkets, Australian crypto exchange.",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "test": "npm run test",
     "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
