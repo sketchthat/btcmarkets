@@ -9,6 +9,7 @@
     "build": "ntsc -p ./"
   },
   "author": "Michael Kimpton",
+  "repository": "https://github.com/sketchthat/btcmarkets",
   "license": "WTFPL",
   "dependencies": {
     "request": "^2.83.0",
