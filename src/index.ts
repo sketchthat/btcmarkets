@@ -3,6 +3,8 @@ import * as rp from 'request-promise';
 
 import { IAccountBalance } from './interfaces/accountBalance.interface';
 import { IMarketOrderBook } from './interfaces/marketOrderBook.interface';
+import { IMarketTick } from './interfaces/marketTick.interface';
+import { IMarketTrade } from './interfaces/marketTrades.interface';
 import { ITradingFee } from './interfaces/tradingFee.interface';
 
 export class BTCMarkets {
@@ -13,7 +15,6 @@ export class BTCMarkets {
   private nonce: number;
   private base: string;
   private accountFloat: number;
-
 
   constructor(publicKey: string, privateKey: string) {
     this.keys = { publicKey, privateKey };
@@ -82,7 +83,19 @@ export class BTCMarkets {
     return resp;
   }
 
-  public async getTradingFee(instrument: string, currency: string): Promise<ITradingFee> {
+  public async marketTick(coin: string, currency: string): Promise<IMarketTick> {
+    const resp: IMarketTick = await this.callPublic(`/market/${coin.toUpperCase()}/${currency.toUpperCase()}/tick`);
+
+    return resp;
+  }
+
+  public async marketTrades(coin: string, currency: string): Promise<IMarketTrade[]> {
+    const resp: IMarketTrade[] = await this.callPublic(`/market/${coin.toUpperCase()}/${currency.toUpperCase()}/trades`);
+
+    return resp;
+  }
+
+  public async tradingFee(instrument: string, currency: string): Promise<ITradingFee> {
     let resp: ITradingFee = await this.callPrivate(`/account/${instrument}/${currency}/tradingfee`);
 
     if (resp.tradingFeeRate > 0) {
