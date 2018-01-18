@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import * as rp from 'request-promise';
 
 import { IAccountBalance } from './interfaces/accountBalance.interface';
-import { IFundTransferHistory } from './interfaces/fundTransferHistory.interface';
+// import { IFundTransferHistory } from './interfaces/fundTransferHistory.interface';
 import { IMarketOrderBook } from './interfaces/marketOrderBook.interface';
 import { IMarketTick } from './interfaces/marketTick.interface';
 import { IMarketTrade } from './interfaces/marketTrades.interface';
