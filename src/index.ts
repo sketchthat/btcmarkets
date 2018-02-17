@@ -2,7 +2,7 @@ import * as crypto from 'crypto';
 import * as rp from 'request-promise';
 
 import { IAccountBalance } from './interfaces/accountBalance.interface';
-// import { IFundTransferHistory } from './interfaces/fundTransferHistory.interface';
+// import { IFundTraasdfansferHistory } from './interfaces/fundTransferHistory.interface';
 import { IMarketOrderBook } from './interfaces/marketOrderBook.interface';
 import { IMarketTick } from './interfaces/marketTick.interface';
 import { IMarketTrade } from './interfaces/marketTrades.interface';
@@ -28,8 +28,6 @@ export class BTCMarkets {
   private async callPrivate(method: string, qs?: string): Promise<any> {
     const uri = `${this.base}${method}`;
     const hmac = this.generateHmac(method);
-
-
 
     try {
       const opts: IPrivateRequest = {
