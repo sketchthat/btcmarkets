@@ -1,36 +1,41 @@
-# BTCMarkets - Typescript Wrapper
+[![Build Status](https://travis-ci.org/sketchthat/btcmarkets.svg?branch=master)](https://travis-ci.org/sketchthat/btcmarkets) [![Coverage Status](https://coveralls.io/repos/github/sketchthat/btcmarkets/badge.svg?branch=master)](https://coveralls.io/github/sketchthat/btcmarkets?branch=master)
+![Dependencies](https://david-dm.org/sketchthat/btcmarkets.svg)
 
-Typescript wrapper for [BTC Markets API](https://github.com/BTCMarkets/API).
+# BTCMarkets Wrapper
 
-Once finalised the wrapper will have a function for each API end-point and also web socket support.
+Typescript / Node wrapper for the Market, Public, Account and Trade APIs offered by [BTCMarkets](https://btcmarkets.net)
 
-If you're looking for a specific end-point support or want to contribute just [add an issue](https://github.com/sketchthat/btcmarkets/issues/new) or [open a PR](https://github.com/sketchthat/btcmarkets/pulls).
+## Setup
 
-Plan is to work through the API in the following order; ~Authentication~, ~Market Data~, ~Account Management~, Trading, Fund Transfer, Web Socket.
+Install the dependancies with npm / yarn.
 
-
-Build
-
-`npm run build`
-
-Usage
-
-```typescript
-// Import Class
-import { BTCMarkets } from '../src/index';
-
-// Initalise Class
-const btcmarkets = new BTCMarkets();
-
-// Request
-btcmarkets.marketOrderBook()
-  .then(marketOrderBook => {
-    console.log(marketOrderBook);
-  })
-  .catch(err => {
-    // Handle Error
-    console.error(err);
-  });
+```
+npm install btcmarkets --save
 ```
 
-More examples can be found in the [/examples](https://github.com/sketchthat/btcmarkets/tree/master/examples) folder.
+### API Key
+
+In order to utilise the private functions you'll need to generate an [API Key](https://btcmarkets.net/account/apikey) with BTCMarkets.
+
+## Usage
+
+TODO
+
+### Exposed Functions
+
+TODO
+
+### Example
+
+Examples for usage of each function can be found within the [examples folder](https://github.com/sketchthat/btcmarkets/tree/master/examples).
+
+```typescript
+import { BTCMarkets } from 'btcmarkets';
+
+
+const btcm = new BTCMarkets();
+
+// TODO
+```
+
+
