@@ -7,15 +7,7 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-// btcm.transaction().history()
-//   .then(resp => {
-//     console.log(resp);
-//   })
-//   .catch(err => {
-//     console.error(err.message);
-//   });
-
-btcm.transaction().history('eth', 10)
+btcm.fundTransfer().withdrawCrypto(1, '17rK8eBG34nWrq3DiNWKGdRUCzm9s9NWwc', 'BCH')
   .then(resp => {
     console.log(resp);
   })

@@ -24,10 +24,22 @@ export class Transaction {
     this.common = new Common();
   }
 
-  public async history(): Promise<History> {
-    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey);
+  public async history(currency?: string, since?: number, indexForward?: boolean, sortForward?: boolean): Promise<History> {
+    let path = `${this.apiPrefix}/history`;
 
-    const response = await this.common.request('GET', r.path, null, null, r.headers);
+    if (currency) {
+      path = `${path}/${currency.toUpperCase()}`;
+    }
+
+    const qs = {
+      since,
+      indexForward,
+      sortForward,
+    };
+
+    const r = createHmac(path, this.publicKey, this.privateKey, qs);
+
+    const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
     response.transactions = response.transactions.map(t => this.common.adjustBalance(t, ['balance', 'amount']));
 

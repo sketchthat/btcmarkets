@@ -21,6 +21,8 @@ export class Common {
       qs: this.buildParams(qs),
     };
 
+    console.log(opts);
+
     return rp(opts);
   }
 
