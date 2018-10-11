@@ -7,7 +7,7 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.trading().history('AUD', 'BTC', 5)
+btcm.fundTransfer().history(5)
   .then(resp => {
     console.log(resp);
   })

@@ -7,18 +7,18 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-// btcm.transaction().history()
-//   .then(resp => {
-//     console.log(resp);
-//   })
-//   .catch(err => {
-//     console.error(err.message);
-//   });
-
-btcm.transaction().history('eth', 10)
+btcm.transaction().history()
   .then(resp => {
     console.log(resp);
   })
   .catch(err => {
     console.error(err.message);
   });
+
+// btcm.transaction().history('eth', 10)
+//   .then(resp => {
+//     console.log(resp);
+//   })
+//   .catch(err => {
+//     console.error(err.message);
+//   });

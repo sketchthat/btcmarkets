@@ -21,14 +21,14 @@ export class Common {
       qs: this.buildParams(qs),
     };
 
-    console.log(opts);
-
     return rp(opts);
   }
 
   public adjustBalance(item: any, figures: string[]) {
     figures.forEach(figure => {
-      item[figure] = item[figure] / this.accountFloat;
+      if (item[figure] > 0) {
+        item[figure] = item[figure] / this.accountFloat;
+      }
     });
 
     return item;
@@ -36,16 +36,18 @@ export class Common {
 
   private buildParams(params: any): any {
     const returnParams = {};
+    let length = 0;
 
     if (params) {
       Object.keys(params)
         .forEach(key => {
           if (params[key]) {
             returnParams[key] = params[key];
+            length++;
           }
         });
     }
 
-    return returnParams;
+    return length > 0 ? returnParams : null;
   }
 }

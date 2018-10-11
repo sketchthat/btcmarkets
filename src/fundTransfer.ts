@@ -55,4 +55,16 @@ export class FundTransfer {
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
+
+  public history(limit?: number, since?: number, indexForward?: boolean) {
+    const qs = {
+      limit: limit ? (limit > 200 ? 200 : limit) : null,
+      since,
+      indexForward,
+    };
+
+    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs);
+
+    return this.common.request('GET', r.path, qs, null, r.headers);
+  }
 }

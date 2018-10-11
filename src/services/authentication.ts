@@ -33,7 +33,7 @@ export function createHmac(
 
   const stringBody = JSON.stringify(body);
 
-  if (Object.keys(body).length > 0) {
+  if (body && Object.keys(body).length > 0) {
     message.push(stringBody);
 
     signatureParams = message.join('\n');
