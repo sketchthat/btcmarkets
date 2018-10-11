@@ -1,11 +1,18 @@
-export interface History {
+export interface Orders {
   success: boolean;
   errorCode: number;
   errorMessage: string;
-  orders: HistoryOrder[];
+  orders: Order[];
 }
 
-interface HistoryOrder {
+export interface History extends Orders {
+  paging?: {
+    newer: string;
+    older: string;
+  };
+}
+
+interface Order {
   id: number;
   currency: string;
   orderSide: string;
@@ -17,10 +24,17 @@ interface HistoryOrder {
   volume: number;
   openVolume: number;
   clientRequestId: number;
-  trades: OrderTrade[];
+  trades: Trade[];
 }
 
-interface OrderTrade {
+export interface Trades {
+  success: boolean;
+  errorCode: number;
+  errorMessage: string;
+  trades: Trade[];
+}
+
+interface Trade {
   id: number;
   creationTime: number;
   description: string;

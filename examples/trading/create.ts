@@ -7,7 +7,7 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.trading().history('BTC', 'AUD', true, 5, 1)
+btcm.trading().create('BCH', 'AUD', 1, 0.001, 'Bid', 'Limit', 'test-aud-btc')
   .then(resp => {
     console.log(resp);
   })

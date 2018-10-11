@@ -27,11 +27,15 @@ export class Common {
   public adjustBalance(item: any, figures: string[]) {
     figures.forEach(figure => {
       if (item[figure] > 0) {
-        item[figure] = item[figure] / this.accountFloat;
+        item[figure] = this.convertFigure(false, item[figure]);
       }
     });
 
     return item;
+  }
+
+  public convertFigure(sendFigure: boolean, figure: number) {
+    return sendFigure ? figure * this.accountFloat : figure / this.accountFloat;
   }
 
   private buildParams(params: any): any {
