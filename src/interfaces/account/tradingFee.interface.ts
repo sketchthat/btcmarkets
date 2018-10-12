@@ -1,4 +1,4 @@
-export interface ITradingFee {
+export interface TradingFee {
   success: boolean;
   errorCode: number;
   errorMessage: string;

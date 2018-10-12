@@ -1,24 +1,71 @@
 {
   "name": "btcmarkets",
-  "version": "1.0.0",
-  "description": "Wrapper client for BTCMarkets, Australian crypto exchange.",
+  "version": "0.0.1-pre-release",
+  "description": "Typescript wrapper for BTCMarkets Exchange",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "npm run test",
-    "watch": "nodemon --watch 'src/**/*.ts' --ignore 'src/**/*.spec.ts' --exec 'ts-node' src/index.ts",
-    "build": "ntsc -p ./"
+    "build": "tsc -d",
+    "test": "./node_modules/mocha/bin/mocha \"src/**/*.ts\" --require ts-node/register --require source-map-support/register --full-trace",
+    "coverage": "./node_modules/nyc/bin/nyc.js npm test",
+    "coverage-ci": "npm run coverage | coveralls",
+    "lint": "tslint --project tsconfig.json"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sketchthat/btcmarkets.git"
+  },
+  "keywords": [
+    "btcmarkets",
+    "api",
+    "bitcoin",
+    "ethereum",
+    "ripple",
+    "litecoin"
+  ],
   "author": "Michael Kimpton",
-  "repository": "https://github.com/sketchthat/btcmarkets",
   "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/sketchthat/btcmarkets/issues"
+  },
+  "homepage": "https://github.com/sketchthat/btcmarkets#readme",
   "dependencies": {
-    "request": "^2.83.0",
-    "request-promise": "^4.2.2",
-    "utf8": "^3.0.0"
+    "crypto": "^1.0.1",
+    "querystring": "^0.2.0",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
   },
   "devDependencies": {
-    "@types/node": "^8.5.7",
-    "ntypescript": "1.201706190042.1",
-    "typescript": "^2.6.2"
+    "@types/chai": "^4.1.3",
+    "@types/mocha": "^5.2.0",
+    "@types/node": "^9.6.6",
+    "chai": "^4.1.2",
+    "mocha": "^5.0.0",
+    "nyc": "^11.7.1",
+    "sinon": "^5.1.1",
+    "source-map-support": "^0.5.4",
+    "ts-node": "^4.1.0",
+    "tslint": "^5.9.1",
+    "tslint-eslint-rules": "^5.1.0",
+    "typescript": "^2.8.1"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "src/interfaces/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "reporter": [
+      "text-lcov",
+      "lcov",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "check-coverage": true
   }
 }

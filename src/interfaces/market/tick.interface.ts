@@ -1,4 +1,4 @@
-export interface IMarketTick {
+export interface Tick {
   bestBid: number;
   bestAsk: number;
   lastPrice: number;
