@@ -1,6 +1,6 @@
 {
   "name": "btcmarkets",
-  "version": "1.0.1",
+  "version": "0.0.1-pre-release",
   "description": "Typescript wrapper for BTCMarkets Exchange",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
