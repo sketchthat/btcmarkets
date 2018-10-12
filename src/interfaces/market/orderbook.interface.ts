@@ -1,6 +1,6 @@
 export interface OrderBook {
-  currency: string;
   instrument: string;
+  currency: string;
   timestamp: number;
   asks: number[][];
   bids: number[][];

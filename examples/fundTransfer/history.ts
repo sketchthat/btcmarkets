@@ -7,10 +7,14 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.fundTransfer().history(5)
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+/**
+ * Get Withdraw History
+ *
+ * Limit: 5
+ * Since: 565 (Order ID)
+ * Index Forward: true
+ */
+btcm.fundTransfer().history(5, 565, true)
+  .then(withdrawHistory => {
+    console.log(withdrawHistory);
   });

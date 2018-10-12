@@ -7,10 +7,8 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
+// Get account balances
 btcm.account().balance()
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+  .then(balances => {
+    console.log(balances);
   });

@@ -8,15 +8,16 @@ import { BTCMarkets } from '../../src/index';
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
 /**
- * Get Order History
+ * Withdraw EFT / Fiat
  *
- * Instrument: BTC
+ * Account Name: James Doe
+ * Bank Name: ANZ
+ * BSB: 012333
+ * Account Number: 999999999
  * Currency: AUD
- * Limit: 5
- * Since: 565 (Order ID)
- * Index Forward: true
+ * Amount: $1,500.33
  */
-btcm.trading().history('BTC', 'AUD', 5, 565, true)
-  .then(history => {
-    console.log(history);
+btcm.fundTransfer().withdrawETF('James Doe', 'ANZ', '012333', '999999999', 'AUD', 1500.33)
+  .then(resp => {
+    console.log(resp);
   });

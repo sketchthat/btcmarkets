@@ -19,23 +19,20 @@ In order to utilise the private functions you'll need to generate an [API Key](h
 
 ## Usage
 
-TODO
+If using public methods api keys don't need to be passed to the constructor.
 
-### Exposed Functions
+```
+import { BTCMarkets } from '@sketchthat/btcmarkets';
 
-TODO
-
-### Example
-
-Examples for usage of each function can be found within the [examples folder](https://github.com/sketchthat/btcmarkets/tree/master/examples).
-
-```typescript
-import { BTCMarkets } from 'btcmarkets';
-
-
-const btcm = new BTCMarkets();
-
-// TODO
+const btcm = new BTCMarkets('myPublicApiKey', 'myPrivateApiKey');
 ```
 
+### Examples
 
+Examples of usage can be found in the [`/examples`](/examples)directory.
+
+- [Account](/examples/account)
+- [Fund Transfer](/examples/fundTransfer)
+- [Market](/examples/market)
+- [Trading](/examples/trading)
+- [Transaction](/examples/transaction)

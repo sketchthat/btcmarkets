@@ -36,11 +36,11 @@ export class FundTransfer {
 
   public async withdrawETF(
     accountName: string,
-    accountNumber: string,
     bankName: string,
     bsbNumber: string,
-    amount: number,
+    accountNumber: string,
     currency: string,
+    amount: number,
   ): Promise<Withdraw> {
     const body = {
       accountName,
@@ -56,7 +56,7 @@ export class FundTransfer {
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public history(limit?: number, since?: number, indexForward?: boolean) {
+  public async history(limit?: number, since?: number, indexForward?: boolean): Promise<any> {
     const qs = {
       limit: limit ? (limit > 200 ? 200 : limit) : null,
       since,

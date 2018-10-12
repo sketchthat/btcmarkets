@@ -7,10 +7,13 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
+/**
+ * Get Trading Fees
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ */
 btcm.account().tradingFees('BTC', 'AUD')
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+  .then(fee => {
+    console.log(fee);
   });

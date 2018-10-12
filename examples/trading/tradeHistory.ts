@@ -7,10 +7,16 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.trading().tradeHistory('BTC', 'AUD', false, 5)
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+/**
+ * Get Trade History
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ * Limit: 5,
+ * Since: 565 (Order ID)
+ * Index Forward: true
+ */
+btcm.trading().tradeHistory('BTC', 'AUD', 5, 565, true)
+  .then(tradeHistory => {
+    console.log(tradeHistory);
   });

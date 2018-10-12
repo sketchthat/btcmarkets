@@ -7,18 +7,15 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.transaction().history()
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+/**
+ * Get Transaction History
+ *
+ * Currency: AUD
+ * Since: 565 (Order ID)
+ * Index Forward: true
+ * Sort Forward: false
+ */
+btcm.transaction().history('AUD', 565, true, false)
+  .then(history => {
+    console.log(history);
   });
-
-// btcm.transaction().history('eth', 10)
-//   .then(resp => {
-//     console.log(resp);
-//   })
-//   .catch(err => {
-//     console.error(err.message);
-//   });

@@ -7,10 +7,13 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.trading().open('BCH', 'AUD')
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+/**
+ * Get Open Trades
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ */
+btcm.trading().open('BTC', 'AUD')
+  .then(open => {
+    console.log(open);
   });

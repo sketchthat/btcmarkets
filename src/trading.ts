@@ -3,7 +3,9 @@ import { createHmac } from './services/authentication';
 
 import { Cancelled } from './interfaces/trading/cancel.interface';
 import { Create, CreateOrderSideType, CreateOrdertypeType } from './interfaces/trading/create.interface';
-import { History, Orders, Trades } from './interfaces/trading/orders.interface';
+import { History } from './interfaces/trading/history.interface';
+import { Orders } from './interfaces/trading/orders.interface';
+import { Trades } from './interfaces/trading/trades.interface';
 
 export class Trading {
   private common: Common;
@@ -21,7 +23,7 @@ export class Trading {
     this.common = new Common();
   }
 
-  public create(
+  public async create(
     instrument: string,
     currency: string,
     price: number,
@@ -45,7 +47,7 @@ export class Trading {
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public cancel(orderIds: number[]): Promise<Cancelled> {
+  public async cancel(orderIds: number[]): Promise<Cancelled> {
     const body = {
       orderIds,
     };
@@ -55,7 +57,7 @@ export class Trading {
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public async history(instrument: string, currency: string, indexForward?: boolean, limit?: number, since?: number): Promise<History> {
+  public async history(instrument: string, currency: string, limit?: number, since?: number, indexForward?: boolean): Promise<History> {
     const qs = {
       indexForward,
       limit,
@@ -65,11 +67,11 @@ export class Trading {
     return this.commonHistoryOpen('history', instrument, currency, qs);
   }
 
-  public open(instrument: string, currency: string): Promise<Orders> {
-    return this.commonHistoryOpen('open', instrument, currency);
+  public async open(instrument: string, currency: string): Promise<Orders> {
+    return this.commonHistoryOpen('open', instrument, currency) as Promise<Orders>;
   }
 
-  public detail(orderIds: number[]): Promise<Orders> {
+  public async detail(orderIds: number[]): Promise<Orders> {
     const body = {
       orderIds,
     };
@@ -82,9 +84,9 @@ export class Trading {
   public async tradeHistory(
     instrument: string,
     currency: string,
-    indexForward?: boolean,
     limit?: number,
     since?: number,
+    indexForward?: boolean,
   ): Promise<Trades> {
     const qs = {
       indexForward,

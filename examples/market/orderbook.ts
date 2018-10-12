@@ -2,10 +2,13 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets();
 
+/**
+ * Get Orderbook
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ */
 btcm.market().orderbook('BTC', 'AUD')
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+  .then(orderbook => {
+    console.log(orderbook);
   });

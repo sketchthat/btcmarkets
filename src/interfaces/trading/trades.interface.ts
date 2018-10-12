@@ -1,14 +1,16 @@
-import { CommonPaging } from '../common/paging.interface';
 import { CommonResponseV2 } from '../common/responseV2.interface';
 
 export interface Trades extends CommonResponseV2 {
   trades: Trade[];
-  paging: CommonPaging;
 }
 
-interface Trade {
+export interface Trade {
   id: number;
+  creationTime: number;
+  description: string;
   price: number;
   volume: number;
-  creationTime: number;
+  side: string;
+  fee: number;
+  orderId: number;
 }
