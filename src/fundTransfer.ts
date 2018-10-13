@@ -29,7 +29,9 @@ export class FundTransfer {
       currency: currency.toUpperCase(),
     };
 
-    const r = createHmac(`${this.apiPrefix}/withdrawCrypto`, this.publicKey, this.privateKey, null, body);
+    body.amount = this.common.convertFigure(true, body.amount);
+
+    const r = createHmac(`${this.apiPrefix}/withdrawcrypto`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
@@ -51,7 +53,9 @@ export class FundTransfer {
       currency: currency.toUpperCase(),
     };
 
-    const r = createHmac(`${this.apiPrefix}/withdrawEFT`, this.publicKey, this.privateKey, null, body);
+    body.amount = this.common.convertFigure(true, body.amount);
+
+    const r = createHmac(`${this.apiPrefix}/withdraweft`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
