@@ -570,4 +570,142 @@ describe('Trading', () => {
     assert.deepEqual(commonStub.args, expectedCommonArgs);
     assert.strictEqual(commonStub.callCount, 1);
   });
+
+  it('should call tradeHistory without parameters', async () => {
+    hmacStub.returns({
+      path: '/v2/order/trade/history/BTC/AUD',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      trades: [{
+        price: 1200000000,
+        volume: 5000000,
+        fee: 509999,
+      }],
+    });
+
+    const resp: any = await trading.tradeHistory('BTC', 'AUD');
+
+    const expectedMockReturn = {
+      trades: [{
+        price: 12,
+        volume: 0.05,
+        fee: 0.00509999,
+      }],
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/v2/order/trade/history/BTC/AUD',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: undefined,
+          limit: undefined,
+          since: undefined,
+        },
+        null,
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/v2/order/trade/history/BTC/AUD',
+        {
+          indexForward: undefined,
+          limit: undefined,
+          since: undefined,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          signature: 'YWJjMTIz',
+          timestamp: 1541581502000,
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call tradeHistory with parameters', async () => {
+    hmacStub.returns({
+      path: '/v2/order/trade/history/BTC/AUD',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      trades: [{
+        price: 1200000000,
+        volume: 5000000,
+        fee: 509999,
+      }],
+    });
+
+    const resp: any = await trading.tradeHistory('BTC', 'AUD', 5, 565, true);
+
+    const expectedMockReturn = {
+      trades: [{
+        price: 12,
+        volume: 0.05,
+        fee: 0.00509999,
+      }],
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/v2/order/trade/history/BTC/AUD',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: true,
+          limit: 5,
+          since: 565,
+        },
+        null,
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/v2/order/trade/history/BTC/AUD',
+        {
+          indexForward: true,
+          limit: 5,
+          since: 565,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          signature: 'YWJjMTIz',
+          timestamp: 1541581502000,
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
 });
