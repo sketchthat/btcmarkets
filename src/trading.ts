@@ -76,7 +76,7 @@ export class Trading {
       orderIds,
     };
 
-    const r = createHmac('detail', this.publicKey, this.privateKey, null, body);
+    const r = createHmac('/order/detail', this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
