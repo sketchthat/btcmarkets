@@ -169,4 +169,184 @@ describe('FundTransfer', () => {
     assert.deepEqual(commonStub.args, expectedCommonArgs);
     assert.strictEqual(commonStub.callCount, 1);
   });
+
+  it('should call history without parameters', async () => {
+    hmacStub.returns({
+      path: '/fundtransfer/history',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      response: true,
+    });
+
+    const resp: any = await fundTransfer.history();
+
+    const expectedMockReturn = {
+      response: true,
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/fundtransfer/history',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: undefined,
+          limit: null,
+          since: undefined,
+        },
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/fundtransfer/history',
+        {
+          indexForward: undefined,
+          limit: null,
+          since: undefined,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          timestamp: 1541581502000,
+          signature: 'YWJjMTIz',
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call history with parameters', async () => {
+    hmacStub.returns({
+      path: '/fundtransfer/history',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      response: true,
+    });
+
+    const resp: any = await fundTransfer.history(5, 565, true);
+
+    const expectedMockReturn = {
+      response: true,
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/fundtransfer/history',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: true,
+          limit: 5,
+          since: 565,
+        },
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/fundtransfer/history',
+        {
+          indexForward: true,
+          limit: 5,
+          since: 565,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          timestamp: 1541581502000,
+          signature: 'YWJjMTIz',
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call history with invalid limit', async () => {
+    hmacStub.returns({
+      path: '/fundtransfer/history',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      response: true,
+    });
+
+    const resp: any = await fundTransfer.history(5500, 565, true);
+
+    const expectedMockReturn = {
+      response: true,
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/fundtransfer/history',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: true,
+          limit: 200,
+          since: 565,
+        },
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/fundtransfer/history',
+        {
+          indexForward: true,
+          limit: 200,
+          since: 565,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          timestamp: 1541581502000,
+          signature: 'YWJjMTIz',
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
 });

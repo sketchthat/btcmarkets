@@ -30,7 +30,7 @@ describe('Authentication', () => {
     this.clock.restore();
   });
 
-  it('should call v1 createHmac without params', () => {
+  it('should call v1 createHmac without parameters', () => {
     const cryptoReturns = {
       update(update) {
         const expectedUpdate = '/v1/private/endpoint\n1541581502000\n';
@@ -63,7 +63,7 @@ describe('Authentication', () => {
     assert.strictEqual(cryptoStub.callCount, 1);
   });
 
-  it('should call v1 createHmac with query string params', () => {
+  it('should call v1 createHmac with query string parameters', () => {
     const cryptoReturns = {
       update(update) {
         const expectedUpdate = '/v1/private/endpoint\n1541581502000\n';
@@ -179,13 +179,7 @@ describe('Authentication', () => {
     assert.strictEqual(cryptoStub.callCount, 1);
   });
 
-
-
-
-
-
-
-  it('should call v2 createHmac without params', () => {
+  it('should call v2 createHmac without parameters', () => {
     const cryptoReturns = {
       update(update) {
         const expectedUpdate = '/v2/private/endpoint\n1541581502000\n';
@@ -218,7 +212,7 @@ describe('Authentication', () => {
     assert.strictEqual(cryptoStub.callCount, 1);
   });
 
-  it('should call v2 createHmac with query string params', () => {
+  it('should call v2 createHmac with query string parameters', () => {
     const cryptoReturns = {
       update(update) {
         const expectedUpdate = '/v2/private/endpoint\ncurrency=aud&instrument=btc\n1541581502000\n';
@@ -294,7 +288,7 @@ describe('Authentication', () => {
     assert.strictEqual(cryptoStub.callCount, 1);
   });
 
-  it('should call v2 createHmac with some undefined post data', () => {
+  it('should call v2 createHmac with some undefined get & post data', () => {
     const cryptoReturns = {
       update(update) {
         const expectedUpdate = '/v2/private/endpoint\n1541581502000\n{"currency":"aud","instrument":"btc","empty":null}';
@@ -312,6 +306,11 @@ describe('Authentication', () => {
 
     cryptoStub.returns(cryptoReturns);
 
+    const qs = {
+      something: null,
+      terrible: undefined,
+    };
+
     const post = {
       currency: 'aud',
       instrument: 'btc',
@@ -319,7 +318,7 @@ describe('Authentication', () => {
       undefinedProperty: undefined,
     };
 
-    const response = createHmac('/v2/private/endpoint', 'MyApiKey', 'MyApiSecret', null, post);
+    const response = createHmac('/v2/private/endpoint', 'MyApiKey', 'MyApiSecret', qs, post);
 
     const expectedResponse = {
       headers: {

@@ -111,20 +111,14 @@ export class Trading {
     currency: string,
     qs?: object,
   ): Promise<Orders|History> {
-    let requestPath = '/v2/order';
-
-    if (instrument && currency) {
-      requestPath = `${requestPath}/${path}/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
-    }
+    const requestPath = `/v2/order/${path}/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
 
     const r = createHmac(requestPath, this.publicKey, this.privateKey, qs, null);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
-    const adjustment = path.match(/trade/) ? 'trades' : 'orders';
-
-    response[adjustment] = response[adjustment].map((o, i) => {
-      response[adjustment][i] = response[adjustment][i].trades.map(t => {
+    response.orders = response.orders.map((o, i) => {
+      response.orders[i] = response.orders[i].trades.map(t => {
         return this.common.adjustBalance(t, ['price', 'volume', 'fee']);
       });
 
