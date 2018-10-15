@@ -79,7 +79,7 @@ describe('Index', () => {
 
   it('should call fundTransfer/withdrawCrypto', async () => {
     hmacStub.returns({
-      path: '/fundtransfer/withdrawcrypto',
+      path: '/fundtransfer/withdrawCrypto',
       headers: {
         apiKey: 'MyApiKey',
         timestamp: 1541581502000,
@@ -96,7 +96,7 @@ describe('Index', () => {
     const expectedArgs = [
       [
         {
-          uri: 'https://api.btcmarkets.net/fundtransfer/withdrawcrypto',
+          uri: 'https://api.btcmarkets.net/fundtransfer/withdrawCrypto',
           json: true,
           method: 'POST',
           qs: null,

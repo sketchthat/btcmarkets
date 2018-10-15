@@ -514,7 +514,7 @@ describe('Trading', () => {
         trades: [{
           price: 1200000000,
           volume: 5000000,
-          fee: 509999,
+          fee: 22099974,
         }],
       }],
     });
@@ -523,13 +523,13 @@ describe('Trading', () => {
 
     const expectedMockReturn = {
       orders: [{
-        price: 1200000000,
-        volume: 5000000,
+        price: 12,
+        volume: 0.05,
         openVolume: 0,
         trades: [{
-          price: 1200000000,
-          volume: 5000000,
-          fee: 509999,
+          price: 12,
+          volume: 0.05,
+          fee: 0.22099974,
         }],
       }],
     };

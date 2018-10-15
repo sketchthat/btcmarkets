@@ -80,7 +80,11 @@ export class Trading {
 
     const response = await this.common.request('POST', r.path, null, body, r.headers);
 
-    response.orders = response.orders.map(o => this.common.adjustBalance(o, ['price', 'volume', 'openVolume']));
+    response.orders = response.orders.map((o, i) => {
+      response.orders[i].trades = response.orders[i].trades.map(t => this.common.adjustBalance(t, ['price', 'volume', 'fee']));
+
+      return this.common.adjustBalance(o, ['price', 'volume', 'openVolume']);
+    });
 
     return response;
   }

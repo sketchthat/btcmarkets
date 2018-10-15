@@ -31,7 +31,7 @@ describe('FundTransfer', () => {
 
   it('should call withdrawCrypto', async () => {
     hmacStub.returns({
-      path: '/fundtransfer/withdrawcrypto',
+      path: '/fundtransfer/withdrawCrypto',
       headers: {
         apiKey: 'MyApiKey',
         timestamp: 1541581502000,
@@ -58,7 +58,7 @@ describe('FundTransfer', () => {
 
     const expectedHmacArgs = [
       [
-        '/fundtransfer/withdrawcrypto',
+        '/fundtransfer/withdrawCrypto',
         'MyApiKey',
         'MyApiSecret',
         null,
@@ -76,7 +76,7 @@ describe('FundTransfer', () => {
     const expectedCommonArgs = [
       [
         'POST',
-        '/fundtransfer/withdrawcrypto',
+        '/fundtransfer/withdrawCrypto',
         null,
         {
           address: 'x123abc',
@@ -95,9 +95,9 @@ describe('FundTransfer', () => {
     assert.strictEqual(commonStub.callCount, 1);
   });
 
-  it('should call withdraweft', async () => {
+  it('should call withdrawEFT', async () => {
     hmacStub.returns({
-      path: '/fundtransfer/withdraweft',
+      path: '/fundtransfer/withdrawEFT',
       headers: {
         apiKey: 'MyApiKey',
         timestamp: 1541581502000,
@@ -127,7 +127,7 @@ describe('FundTransfer', () => {
 
     const expectedHmacArgs = [
       [
-        '/fundtransfer/withdraweft',
+        '/fundtransfer/withdrawEFT',
         'MyApiKey',
         'MyApiSecret',
         null,
@@ -148,7 +148,7 @@ describe('FundTransfer', () => {
     const expectedCommonArgs = [
       [
         'POST',
-        '/fundtransfer/withdraweft',
+        '/fundtransfer/withdrawEFT',
         null,
         {
           accountName: 'John Doe',
@@ -181,13 +181,19 @@ describe('FundTransfer', () => {
     });
 
     commonStub.returns({
-      response: true,
+      fundTransfers: [{
+        amount: 535633000000,
+        fee: 534000000,
+      }],
     });
 
     const resp: any = await fundTransfer.history();
 
     const expectedMockReturn = {
-      response: true,
+      fundTransfers: [{
+        amount: 5356.33,
+        fee: 5.34,
+      }],
     };
 
     assert.deepEqual(resp, expectedMockReturn);
@@ -241,13 +247,19 @@ describe('FundTransfer', () => {
     });
 
     commonStub.returns({
-      response: true,
+      fundTransfers: [{
+        amount: 535633000000,
+        fee: 534000000,
+      }],
     });
 
     const resp: any = await fundTransfer.history(5, 565, true);
 
     const expectedMockReturn = {
-      response: true,
+      fundTransfers: [{
+        amount: 5356.33,
+        fee: 5.34,
+      }],
     };
 
     assert.deepEqual(resp, expectedMockReturn);
@@ -301,13 +313,19 @@ describe('FundTransfer', () => {
     });
 
     commonStub.returns({
-      response: true,
+      fundTransfers: [{
+        amount: 535633000000,
+        fee: 534000000,
+      }],
     });
 
     const resp: any = await fundTransfer.history(5500, 565, true);
 
     const expectedMockReturn = {
-      response: true,
+      fundTransfers: [{
+        amount: 5356.33,
+        fee: 5.34,
+      }],
     };
 
     assert.deepEqual(resp, expectedMockReturn);
