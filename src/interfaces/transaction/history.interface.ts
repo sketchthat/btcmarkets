@@ -1,8 +1,9 @@
-import { CommonPaging } from '../common/paging.interface';
-
 export interface History {
   success: boolean;
-  paging: CommonPaging;
+  paging: {
+    newer: HistoryPaging;
+    older: HistoryPaging;
+  };
   transactions: Transaction[];
 }
 
@@ -16,4 +17,10 @@ interface Transaction {
   recordType: string;
   referenceId: number;
   action: string;
+}
+
+interface HistoryPaging {
+  since: number;
+  indexForward: boolean;
+  sortForward: boolean;
 }

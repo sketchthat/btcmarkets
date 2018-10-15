@@ -1,4 +1,6 @@
+import * as querystring from 'querystring';
 import * as rp from 'request-promise';
+
 import { HmacHeaders } from './interfaces/hmacResponse.interface';
 
 export class Common {
@@ -21,7 +23,19 @@ export class Common {
       qs: this.buildParams(qs),
     };
 
-    return rp(opts);
+    const response = await rp(opts);
+
+    if (response && response.paging) {
+      const newer = this.getPaging(response.paging.newer);
+      const older = this.getPaging(response.paging.older);
+
+      response.paging = {
+        newer,
+        older,
+      };
+    }
+
+    return response;
   }
 
   public adjustBalance(item: any, figures: string[]) {
@@ -36,6 +50,43 @@ export class Common {
 
   public convertFigure(sendFigure: boolean, figure: number) {
     return sendFigure ? figure * this.accountFloat : figure / this.accountFloat;
+  }
+
+  public convertType(paging: object, adjustment: object): any {
+    const adjustTool = ((key, direction) => {
+      if (adjustment[key]) {
+        const value = paging[direction][key];
+
+        switch (adjustment[key]) {
+          case 'number':
+            converted[direction][key] = parseInt(value, 10);
+            break;
+          case 'boolean':
+            converted[direction][key] = value === 'true';
+            break;
+          default:
+            converted[direction][key] = value;
+            break;
+        }
+      }
+    });
+
+    const converted = {
+      newer: {},
+      older: {},
+    };
+
+    if (paging) {
+      Object.keys(paging).forEach(direction => {
+        if (paging[direction]) {
+          Object.keys(paging[direction]).forEach(key => {
+            adjustTool(key, direction);
+          });
+        }
+      });
+    }
+
+    return converted;
   }
 
   private buildParams(params: any): any {
@@ -53,5 +104,15 @@ export class Common {
     }
 
     return length > 0 ? returnParams : null;
+  }
+
+  private getPaging(paging: string): object {
+    if (paging && paging.match(/\?/)) {
+      const split = paging.split('?');
+
+      const qs = querystring.parse(split[1]);
+
+      return qs;
+    }
   }
 }

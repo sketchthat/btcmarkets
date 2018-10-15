@@ -1,9 +1,11 @@
-import { CommonPaging } from '../common/paging.interface';
 import { CommonResponseV2 } from '../common/responseV2.interface';
 
 export interface History extends CommonResponseV2 {
   fundTransfers: FundTransfer[];
-  paging: CommonPaging;
+  paging: {
+    newer: HistoryPaging;
+    older: HistoryPaging;
+  };
 }
 
 interface FundTransfer {
@@ -23,4 +25,10 @@ interface FundTransfer {
 interface CryptoPaymentDetail {
   address: string;
   txId: string;
+}
+
+interface HistoryPaging {
+  since: number;
+  indexForward: boolean;
+  limit?: number;
 }

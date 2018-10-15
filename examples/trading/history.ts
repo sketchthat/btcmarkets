@@ -14,8 +14,18 @@ const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
  * Currency: AUD
  */
 btcm.trading().history('BTC', 'AUD')
-  .then(history => {
+  .then(async history => {
     console.log(history);
+
+    // Paging
+    if (history.paging) {
+      const newer = history.paging.newer;
+      // const older = withdrawHistory.paging.older;
+
+      const newerResponse = await btcm.trading().history('BTC', 'AUD', newer.limit, newer.since, newer.indexForward);
+
+      console.log(newerResponse);
+    }
   });
 
 /**

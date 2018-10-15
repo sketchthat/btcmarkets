@@ -11,8 +11,18 @@ const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
  * Get Paginated Transaction History
  */
 btcm.transaction().history()
-  .then(history => {
+  .then(async history => {
     console.log(history);
+
+    // Paging
+    if (history.paging) {
+      const newer = history.paging.newer;
+      // const older = withdrawHistory.paging.older;
+
+      const newerResponse = await btcm.transaction().history(null, newer.since, newer.indexForward, newer.sortForward);
+
+      console.log(newerResponse);
+    }
   });
 
 /**

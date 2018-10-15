@@ -9,6 +9,7 @@ export function createHmac(
   privateApiKey: string,
   qs?: object,
   body?: object,
+  v2?: boolean,
 ): HmacResponse {
   qs = buildParams(qs);
 
@@ -18,7 +19,7 @@ export function createHmac(
     path,
   ];
 
-  if (path.match(/^\/v2\//)) { // v2 Authentication
+  if (v2) { // v2 Authentication
     const stringQs = querystring.stringify(qs);
 
     if (Object.keys(qs).length > 0) {

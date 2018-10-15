@@ -64,7 +64,19 @@ export class Trading {
       since,
     };
 
-    return this.commonHistoryOpen('history', instrument, currency, qs);
+    const response = await this.commonHistoryOpen('history', instrument, currency, qs) as History;
+
+    if (response.paging) {
+      const adjustment = {
+        since: 'number',
+        indexForward: 'boolean',
+        limit: 'number',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
+
+    return response;
   }
 
   public async open(instrument: string, currency: string): Promise<Orders> {
@@ -104,7 +116,7 @@ export class Trading {
 
     const path = `/v2/order/trade/history/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
 
-    const r = createHmac(path, this.publicKey, this.privateKey, qs, null);
+    const r = createHmac(path, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
@@ -121,7 +133,7 @@ export class Trading {
   ): Promise<Orders|History> {
     const requestPath = `/v2/order/${path}/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
 
-    const r = createHmac(requestPath, this.publicKey, this.privateKey, qs, null);
+    const r = createHmac(requestPath, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 

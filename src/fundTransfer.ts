@@ -68,11 +68,21 @@ export class FundTransfer {
       indexForward,
     };
 
-    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs);
+    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
     response.fundTransfers = response.fundTransfers.map(ft => this.common.adjustBalance(ft, ['amount', 'fee']));
+
+    if (response.paging) {
+      const adjustment = {
+        limit: 'number',
+        since: 'number',
+        indexForward: 'boolean',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
 
     return response;
   }
