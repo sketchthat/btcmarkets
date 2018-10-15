@@ -26,7 +26,7 @@ export class Common {
 
   public adjustBalance(item: any, figures: string[]) {
     figures.forEach(figure => {
-      if (item[figure] > 0) {
+      if (item[figure] && item[figure] != 0) {
         item[figure] = this.convertFigure(false, item[figure]);
       }
     });

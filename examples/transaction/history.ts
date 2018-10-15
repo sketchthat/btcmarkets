@@ -8,6 +8,14 @@ import { BTCMarkets } from '../../src/index';
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
 /**
+ * Get Paginated Transaction History
+ */
+btcm.transaction().history()
+  .then(history => {
+    console.log(history);
+  });
+
+/**
  * Get Transaction History
  *
  * Currency: AUD

@@ -8,6 +8,17 @@ import { BTCMarkets } from '../../src/index';
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
 /**
+ * Get Paginated Trade History
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ */
+btcm.trading().tradeHistory('BTC', 'AUD')
+  .then(tradeHistory => {
+    console.log(tradeHistory);
+  });
+
+/**
  * Get Trade History
  *
  * Instrument: BTC

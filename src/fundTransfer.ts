@@ -1,6 +1,7 @@
 import { Common } from './common';
 import { createHmac } from './services/authentication';
 
+import { History } from './interfaces/fundTransfer/history.interface';
 import { Withdraw } from './interfaces/fundTransfer/withdraw.interface';
 
 export class FundTransfer {
@@ -31,7 +32,7 @@ export class FundTransfer {
 
     body.amount = this.common.convertFigure(true, body.amount);
 
-    const r = createHmac(`${this.apiPrefix}/withdrawcrypto`, this.publicKey, this.privateKey, null, body);
+    const r = createHmac(`${this.apiPrefix}/withdrawCrypto`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
@@ -55,12 +56,12 @@ export class FundTransfer {
 
     body.amount = this.common.convertFigure(true, body.amount);
 
-    const r = createHmac(`${this.apiPrefix}/withdraweft`, this.publicKey, this.privateKey, null, body);
+    const r = createHmac(`${this.apiPrefix}/withdrawEFT`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public async history(limit?: number, since?: number, indexForward?: boolean): Promise<any> {
+  public async history(limit?: number, since?: number, indexForward?: boolean): Promise<History> {
     const qs = {
       limit: limit ? (limit > 200 ? 200 : limit) : null,
       since,
@@ -69,6 +70,10 @@ export class FundTransfer {
 
     const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs);
 
-    return this.common.request('GET', r.path, qs, null, r.headers);
+    const response = await this.common.request('GET', r.path, qs, null, r.headers);
+
+    response.fundTransfers = response.fundTransfers.map(ft => this.common.adjustBalance(ft, ['amount', 'fee']));
+
+    return response;
   }
 }

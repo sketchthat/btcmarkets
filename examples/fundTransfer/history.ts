@@ -8,6 +8,14 @@ import { BTCMarkets } from '../../src/index';
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
 /**
+ * Get Paginated Withdraw History
+ */
+btcm.fundTransfer().history()
+  .then(withdrawHistory => {
+    console.log(withdrawHistory);
+  });
+
+/**
  * Get Withdraw History
  *
  * Limit: 5

@@ -78,7 +78,11 @@ export class Trading {
 
     const r = createHmac('/order/detail', this.publicKey, this.privateKey, null, body);
 
-    return this.common.request('POST', r.path, null, body, r.headers);
+    const response = await this.common.request('POST', r.path, null, body, r.headers);
+
+    response.orders = response.orders.map(o => this.common.adjustBalance(o, ['price', 'volume', 'openVolume']));
+
+    return response;
   }
 
   public async tradeHistory(
@@ -100,7 +104,7 @@ export class Trading {
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
-    response.trades = response.trades.map(o => this.common.adjustBalance(o, ['price', 'volume', 'fee']));
+    response.trades = response.trades.map(t => this.common.adjustBalance(t, ['price', 'volume', 'fee']));
 
     return response;
   }

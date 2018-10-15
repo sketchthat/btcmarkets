@@ -1,7 +1,7 @@
 import { Common } from './common';
 
 import { Active } from './interfaces/market/active.interface';
-import { HistoricTicksTimeType } from './interfaces/market/historicTicks.interface';
+import { HistoricTick, HistoricTicksTimeType } from './interfaces/market/historicTicks.interface';
 import { OrderBook } from './interfaces/market/orderbook.interface';
 import { Tick } from './interfaces/market/tick.interface';
 import { Trades } from './interfaces/market/trades.interface';
@@ -41,7 +41,7 @@ export class Market {
       qs,
     );
 
-    response.trades = response.trades.map(o => this.common.adjustBalance(o, ['price', 'volume']));
+    response.trades = response.trades.map(t => this.common.adjustBalance(t, ['price', 'volume']));
 
     return response;
   }
@@ -54,7 +54,7 @@ export class Market {
     since?: number,
     indexForward?: boolean,
     sortForward?: boolean,
-  ): Promise<any> {
+  ): Promise<HistoricTick> {
     const qs = {
       limit,
       since,
