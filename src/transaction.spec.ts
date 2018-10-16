@@ -62,6 +62,8 @@ describe('Transaction', () => {
           since: undefined,
           sortForward: undefined,
         },
+        null,
+        true,
       ],
     ];
 
@@ -128,6 +130,8 @@ describe('Transaction', () => {
           since: 565,
           sortForward: false,
         },
+        null,
+        true,
       ],
     ];
 
@@ -142,6 +146,84 @@ describe('Transaction', () => {
           indexForward: true,
           since: 565,
           sortForward: false,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          signature: 'YWJjMTIz',
+          timestamp: 1541581502000,
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call history with pagination', async () => {
+    hmacStub.returns({
+      path: '/v2/transaction/history',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      transactions: [],
+      paging: {
+        newer: {
+          since: '100',
+          indexForward: 'true',
+          sortForward: 'false',
+        },
+        older: {},
+      },
+    });
+
+    const resp: any = await transaction.history();
+
+    const expectedMockReturn = {
+      transactions: [],
+      paging: {
+        newer: {
+          since: 100,
+          indexForward: true,
+          sortForward: false,
+        },
+        older: {},
+      },
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/v2/transaction/history',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: undefined,
+          since: undefined,
+          sortForward: undefined,
+        },
+        null,
+        true,
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/v2/transaction/history',
+        {
+          indexForward: undefined,
+          since: undefined,
+          sortForward: undefined,
         },
         null,
         {

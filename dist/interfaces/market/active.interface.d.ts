@@ -1,7 +1,5 @@
-export interface Active {
-    success: boolean;
-    errorCode: number;
-    errorMessage: string;
+import { CommonResponseV2 } from '../common/responseV2.interface';
+export interface Active extends CommonResponseV2 {
     markets: Market[];
 }
 interface Market {

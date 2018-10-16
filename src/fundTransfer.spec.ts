@@ -208,6 +208,8 @@ describe('FundTransfer', () => {
           limit: null,
           since: undefined,
         },
+        null,
+        true,
       ],
     ];
 
@@ -274,6 +276,8 @@ describe('FundTransfer', () => {
           limit: 5,
           since: 565,
         },
+        null,
+        true,
       ],
     ];
 
@@ -288,6 +292,90 @@ describe('FundTransfer', () => {
           indexForward: true,
           limit: 5,
           since: 565,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          timestamp: 1541581502000,
+          signature: 'YWJjMTIz',
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call history with paging', async () => {
+    hmacStub.returns({
+      path: '/fundtransfer/history',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      fundTransfers: [{
+        amount: 535633000000,
+        fee: 534000000,
+      }],
+      paging: {
+        newer: {
+          limit: '5',
+          since: '565',
+          indexForward: 'true',
+        },
+        older: {},
+      },
+    });
+
+    const resp: any = await fundTransfer.history();
+
+    const expectedMockReturn = {
+      fundTransfers: [{
+        amount: 5356.33,
+        fee: 5.34,
+      }],
+      paging: {
+        newer: {
+          limit: 5,
+          since: 565,
+          indexForward: true,
+        },
+        older: {},
+      },
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/fundtransfer/history',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: undefined,
+          limit: null,
+          since: undefined,
+        },
+        null,
+        true,
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/fundtransfer/history',
+        {
+          indexForward: undefined,
+          limit: null,
+          since: undefined,
         },
         null,
         {
@@ -340,6 +428,8 @@ describe('FundTransfer', () => {
           limit: 200,
           since: 565,
         },
+        null,
+        true,
       ],
     ];
 

@@ -43,6 +43,16 @@ export class Market {
 
     response.trades = response.trades.map(t => this.common.adjustBalance(t, ['price', 'volume']));
 
+    if (response.paging) {
+      const adjustment = {
+        limit: 'number',
+        since: 'number',
+        indexForward: 'boolean',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
+
     return response;
   }
 

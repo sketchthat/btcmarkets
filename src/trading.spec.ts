@@ -247,6 +247,7 @@ describe('Trading', () => {
           since: undefined,
         },
         null,
+        true,
       ],
     ];
 
@@ -359,6 +360,7 @@ describe('Trading', () => {
           indexForward: false,
         },
         null,
+        true,
       ],
     ];
 
@@ -373,6 +375,102 @@ describe('Trading', () => {
           limit: 5,
           since: 565,
           indexForward: false,
+        },
+        null,
+        {
+          apiKey: 'MyApiKey',
+          signature: 'YWJjMTIz',
+          timestamp: 1541581502000,
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
+  it('should call history with paging', async () => {
+    hmacStub.returns({
+      path: '/v2/order/history/BTC/AUD',
+      headers: {
+        apiKey: 'MyApiKey',
+        timestamp: 1541581502000,
+        signature: 'YWJjMTIz',
+      },
+    });
+
+    commonStub.returns({
+      orders: [{
+        price: 1000000000,
+        volume: 100000000,
+        openVolume: 0,
+        trades: [{
+          price: 2600000000,
+          volume: 100000000,
+          fee: 22099974,
+        }],
+      }],
+      paging: {
+        older: {
+          since: '565',
+          indexForward: 'true',
+          limit: '5',
+        },
+        newer: {},
+      },
+    });
+
+    const resp: any = await trading.history('BTC', 'AUD');
+
+    const expectedMockReturn = {
+      orders: [{
+        price: 10,
+        volume: 1,
+        openVolume: 0,
+        trades: [{
+          price: 26,
+          volume: 1,
+          fee: 0.22099974,
+        }],
+      }],
+      paging: {
+        older: {
+          since: 565,
+          indexForward: true,
+          limit: 5,
+        },
+        newer: {},
+      },
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedHmacArgs = [
+      [
+        '/v2/order/history/BTC/AUD',
+        'MyApiKey',
+        'MyApiSecret',
+        {
+          indexForward: undefined,
+          limit: undefined,
+          since: undefined,
+        },
+        null,
+        true,
+      ],
+    ];
+
+    assert.deepEqual(hmacStub.args, expectedHmacArgs);
+    assert.strictEqual(hmacStub.callCount, 1);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/v2/order/history/BTC/AUD',
+        {
+          indexForward: undefined,
+          limit: undefined,
+          since: undefined,
         },
         null,
         {
@@ -467,6 +565,7 @@ describe('Trading', () => {
         'MyApiSecret',
         undefined,
         null,
+        true,
       ],
     ];
 
@@ -612,6 +711,7 @@ describe('Trading', () => {
           since: undefined,
         },
         null,
+        true,
       ],
     ];
 
@@ -681,6 +781,7 @@ describe('Trading', () => {
           since: 565,
         },
         null,
+        true,
       ],
     ];
 

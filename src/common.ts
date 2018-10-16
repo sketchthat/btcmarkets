@@ -107,12 +107,14 @@ export class Common {
   }
 
   private getPaging(paging: string): object {
+    let qs = {};
+
     if (paging && paging.match(/\?/)) {
       const split = paging.split('?');
 
-      const qs = querystring.parse(split[1]);
-
-      return qs;
+      qs = querystring.parse(split[1]);
     }
+
+    return qs;
   }
 }

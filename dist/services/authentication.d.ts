@@ -1,2 +1,2 @@
 import { HmacResponse } from '../interfaces/hmacResponse.interface';
-export declare function createHmac(path: string, publicApiKey: string, privateApiKey: string, qs?: object, body?: object): HmacResponse;
+export declare function createHmac(path: string, publicApiKey: string, privateApiKey: string, qs?: object, body?: object, v2?: boolean): HmacResponse;

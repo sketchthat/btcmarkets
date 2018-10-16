@@ -1,9 +1,11 @@
-import { CommonPaging } from '../common/paging.interface';
 import { CommonResponseV2 } from '../common/responseV2.interface';
 
 export interface Trades extends CommonResponseV2 {
   trades: Trade[];
-  paging: CommonPaging;
+  paging: {
+    newer: TradesPaging;
+    older: TradesPaging;
+  };
 }
 
 interface Trade {
@@ -11,4 +13,10 @@ interface Trade {
   price: number;
   volume: number;
   creationTime: number;
+}
+
+interface TradesPaging {
+  since: number;
+  indexForward: boolean;
+  limit?: number;
 }

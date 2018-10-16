@@ -178,6 +178,63 @@ describe('Market', () => {
     assert.strictEqual(commonStub.callCount, 1);
   });
 
+  it('should call trades with paging', async () => {
+    commonStub.returns({
+      trades: [
+        {
+          id: 116082007,
+          price: 881180000000,
+          volume: 11898000,
+          creationTime: 1468115880783,
+        },
+      ],
+      paging: {
+        newer: {
+          limit: '5',
+          since: '565',
+          indexForward: 'false',
+        },
+        older: {},
+      },
+    });
+
+    const resp: any = await market.trades('btc', 'aud');
+
+    const expectedMockReturn = {
+      trades: [{
+        id: 116082007,
+        price: 8811.8,
+        volume: 0.11898,
+        creationTime: 1468115880783,
+      }],
+      paging: {
+        newer: {
+          limit: 5,
+          since: 565,
+          indexForward: false,
+        },
+        older: {},
+      },
+    };
+
+    assert.deepEqual(resp, expectedMockReturn);
+
+    const expectedCommonArgs = [
+      [
+        'GET',
+        '/v2/market/BTC/AUD/trades',
+        {
+          indexForward: undefined,
+          limit: undefined,
+          since: undefined,
+        },
+      ],
+    ];
+
+    assert.deepEqual(commonStub.args, expectedCommonArgs);
+    assert.strictEqual(commonStub.callCount, 1);
+  });
+
   it('should call historicTicks without parameters', async () => {
     commonStub.returns({
       ticks: [{
