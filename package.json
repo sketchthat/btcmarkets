@@ -1,5 +1,5 @@
 {
-  "name": "@sketchthat/btcmarkets",
+  "name": "btcmarkets-australia",
   "version": "1.0.0",
   "description": "Typescript wrapper for BTCMarkets Exchange",
   "main": "dist/index.js",
