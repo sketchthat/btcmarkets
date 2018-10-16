@@ -7,10 +7,16 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.fundTransfer().withdrawCrypto(1, '17rK8eBG34nWrq3DiNWKGdRUCzm9s9NWwc', 'BCH')
+/**
+ * Withdraw Crypto Currency
+ *
+ * Amount: 50 XRP
+ * Wallet Address: rPvKH3CoiKnne5wAYphhsWgqAEMf1tRAE7
+ * Destination Tag: 1856
+ * Instrument: XRP
+ */
+
+btcm.fundTransfer().withdrawCrypto(50, 'rPvKH3CoiKnne5wAYphhsWgqAEMf1tRAE7?dt=1856', 'XRP')
   .then(resp => {
     console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
   });

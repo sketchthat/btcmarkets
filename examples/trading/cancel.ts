@@ -7,10 +7,22 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets(keys.publicKey, keys.privateKey);
 
-btcm.trading().cancel([1, 2, 3])
+/**
+ * Cancel Single Order
+ *
+ * Order Ids: [11]
+ */
+btcm.trading().cancel([11])
   .then(resp => {
     console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+  });
+
+/**
+ * Cancel Multiple Orders
+ *
+ * Order Ids: [11, 22, 33]
+ */
+btcm.trading().cancel([11, 22, 33])
+  .then(resp => {
+    console.log(resp);
   });

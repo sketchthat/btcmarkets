@@ -1,11 +1,10 @@
-export interface Trades {
-  success: boolean;
-  errorCode: number;
-  errorMessage: string;
+import { CommonResponseV2 } from '../common/responseV2.interface';
+
+export interface Trades extends CommonResponseV2 {
   trades: Trade[];
   paging: {
-    newer: string;
-    older: string;
+    newer: TradesPaging;
+    older: TradesPaging;
   };
 }
 
@@ -14,4 +13,10 @@ interface Trade {
   price: number;
   volume: number;
   creationTime: number;
+}
+
+interface TradesPaging {
+  since: number;
+  indexForward: boolean;
+  limit?: number;
 }

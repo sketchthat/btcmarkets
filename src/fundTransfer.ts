@@ -1,6 +1,7 @@
 import { Common } from './common';
 import { createHmac } from './services/authentication';
 
+import { History } from './interfaces/fundTransfer/history.interface';
 import { Withdraw } from './interfaces/fundTransfer/withdraw.interface';
 
 export class FundTransfer {
@@ -29,6 +30,8 @@ export class FundTransfer {
       currency: currency.toUpperCase(),
     };
 
+    body.amount = this.common.convertFigure(true, body.amount);
+
     const r = createHmac(`${this.apiPrefix}/withdrawCrypto`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
@@ -36,11 +39,11 @@ export class FundTransfer {
 
   public async withdrawETF(
     accountName: string,
-    accountNumber: string,
     bankName: string,
     bsbNumber: string,
-    amount: number,
+    accountNumber: string,
     currency: string,
+    amount: number,
   ): Promise<Withdraw> {
     const body = {
       accountName,
@@ -51,20 +54,36 @@ export class FundTransfer {
       currency: currency.toUpperCase(),
     };
 
+    body.amount = this.common.convertFigure(true, body.amount);
+
     const r = createHmac(`${this.apiPrefix}/withdrawEFT`, this.publicKey, this.privateKey, null, body);
 
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public history(limit?: number, since?: number, indexForward?: boolean) {
+  public async history(limit?: number, since?: number, indexForward?: boolean): Promise<History> {
     const qs = {
       limit: limit ? (limit > 200 ? 200 : limit) : null,
       since,
       indexForward,
     };
 
-    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs);
+    const r = createHmac(`${this.apiPrefix}/history`, this.publicKey, this.privateKey, qs, null, true);
 
-    return this.common.request('GET', r.path, qs, null, r.headers);
+    const response = await this.common.request('GET', r.path, qs, null, r.headers);
+
+    response.fundTransfers = response.fundTransfers.map(ft => this.common.adjustBalance(ft, ['amount', 'fee']));
+
+    if (response.paging) {
+      const adjustment = {
+        limit: 'number',
+        since: 'number',
+        indexForward: 'boolean',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
+
+    return response;
   }
 }

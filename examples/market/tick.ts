@@ -2,10 +2,13 @@ import { BTCMarkets } from '../../src/index';
 
 const btcm = new BTCMarkets();
 
+/**
+ * Get current exchange tick
+ *
+ * Instrument: BTC
+ * Currency: AUD
+ */
 btcm.market().tick('BTC', 'AUD')
-  .then(resp => {
-    console.log(resp);
-  })
-  .catch(err => {
-    console.error(err.message);
+  .then(tick => {
+    console.log(tick);
   });

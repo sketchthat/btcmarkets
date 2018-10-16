@@ -37,11 +37,21 @@ export class Transaction {
       sortForward,
     };
 
-    const r = createHmac(path, this.publicKey, this.privateKey, qs);
+    const r = createHmac(path, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
     response.transactions = response.transactions.map(t => this.common.adjustBalance(t, ['balance', 'amount']));
+
+    if (response.paging) {
+      const adjustment = {
+        since: 'number',
+        indexForward: 'boolean',
+        sortForward: 'boolean',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
 
     return response;
   }

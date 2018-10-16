@@ -1,13 +1,8 @@
-export interface Cancelled {
-    success: boolean;
-    errorCode: number;
-    errorMessage: string;
+import { CommonResponseV2 } from '../common/responseV2.interface';
+export interface Cancelled extends CommonResponseV2 {
     responses: Order[];
 }
-interface Order {
-    success: boolean;
-    errorCode: number;
-    errorMessage: string;
+interface Order extends CommonResponseV2 {
     id: number;
 }
 export {};

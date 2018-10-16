@@ -1,6 +1,4 @@
-export interface Withdraw {
-    success: boolean;
-    errorCode: number;
-    errorMessage?: string;
+import { CommonResponseV2 } from '../common/responseV2.interface';
+export interface Withdraw extends CommonResponseV2 {
     status?: string;
 }

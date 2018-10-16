@@ -1,0 +1,6 @@
+tsconfig.json
+.travis.yml
+src/
+dist/**/*.spec.js
+examples/
+.npmignore

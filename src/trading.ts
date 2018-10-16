@@ -3,7 +3,9 @@ import { createHmac } from './services/authentication';
 
 import { Cancelled } from './interfaces/trading/cancel.interface';
 import { Create, CreateOrderSideType, CreateOrdertypeType } from './interfaces/trading/create.interface';
-import { History, Orders, Trades } from './interfaces/trading/orders.interface';
+import { History } from './interfaces/trading/history.interface';
+import { Orders } from './interfaces/trading/orders.interface';
+import { Trades } from './interfaces/trading/trades.interface';
 
 export class Trading {
   private common: Common;
@@ -21,7 +23,7 @@ export class Trading {
     this.common = new Common();
   }
 
-  public create(
+  public async create(
     instrument: string,
     currency: string,
     price: number,
@@ -45,7 +47,7 @@ export class Trading {
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public cancel(orderIds: number[]): Promise<Cancelled> {
+  public async cancel(orderIds: number[]): Promise<Cancelled> {
     const body = {
       orderIds,
     };
@@ -55,36 +57,56 @@ export class Trading {
     return this.common.request('POST', r.path, null, body, r.headers);
   }
 
-  public async history(instrument: string, currency: string, indexForward?: boolean, limit?: number, since?: number): Promise<History> {
+  public async history(instrument: string, currency: string, limit?: number, since?: number, indexForward?: boolean): Promise<History> {
     const qs = {
       indexForward,
       limit,
       since,
     };
 
-    return this.commonHistoryOpen('history', instrument, currency, qs);
+    const response = await this.commonHistoryOpen('history', instrument, currency, qs) as History;
+
+    if (response.paging) {
+      const adjustment = {
+        since: 'number',
+        indexForward: 'boolean',
+        limit: 'number',
+      };
+
+      response.paging = this.common.convertType(response.paging, adjustment);
+    }
+
+    return response;
   }
 
-  public open(instrument: string, currency: string): Promise<Orders> {
-    return this.commonHistoryOpen('open', instrument, currency);
+  public async open(instrument: string, currency: string): Promise<Orders> {
+    return this.commonHistoryOpen('open', instrument, currency) as Promise<Orders>;
   }
 
-  public detail(orderIds: number[]): Promise<Orders> {
+  public async detail(orderIds: number[]): Promise<Orders> {
     const body = {
       orderIds,
     };
 
-    const r = createHmac('detail', this.publicKey, this.privateKey, null, body);
+    const r = createHmac('/order/detail', this.publicKey, this.privateKey, null, body);
 
-    return this.common.request('POST', r.path, null, body, r.headers);
+    const response = await this.common.request('POST', r.path, null, body, r.headers);
+
+    response.orders = response.orders.map((o, i) => {
+      response.orders[i].trades = response.orders[i].trades.map(t => this.common.adjustBalance(t, ['price', 'volume', 'fee']));
+
+      return this.common.adjustBalance(o, ['price', 'volume', 'openVolume']);
+    });
+
+    return response;
   }
 
   public async tradeHistory(
     instrument: string,
     currency: string,
-    indexForward?: boolean,
     limit?: number,
     since?: number,
+    indexForward?: boolean,
   ): Promise<Trades> {
     const qs = {
       indexForward,
@@ -94,11 +116,11 @@ export class Trading {
 
     const path = `/v2/order/trade/history/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
 
-    const r = createHmac(path, this.publicKey, this.privateKey, qs, null);
+    const r = createHmac(path, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
-    response.trades = response.trades.map(o => this.common.adjustBalance(o, ['price', 'volume', 'fee']));
+    response.trades = response.trades.map(t => this.common.adjustBalance(t, ['price', 'volume', 'fee']));
 
     return response;
   }
@@ -109,20 +131,14 @@ export class Trading {
     currency: string,
     qs?: object,
   ): Promise<Orders|History> {
-    let requestPath = '/v2/order';
+    const requestPath = `/v2/order/${path}/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
 
-    if (instrument && currency) {
-      requestPath = `${requestPath}/${path}/${instrument.toUpperCase()}/${currency.toUpperCase()}`;
-    }
-
-    const r = createHmac(requestPath, this.publicKey, this.privateKey, qs, null);
+    const r = createHmac(requestPath, this.publicKey, this.privateKey, qs, null, true);
 
     const response = await this.common.request('GET', r.path, qs, null, r.headers);
 
-    const adjustment = path.match(/trade/) ? 'trades' : 'orders';
-
-    response[adjustment] = response[adjustment].map((o, i) => {
-      response[adjustment][i] = response[adjustment][i].trades.map(t => {
+    response.orders = response.orders.map((o, i) => {
+      response.orders[i] = response.orders[i].trades.map(t => {
         return this.common.adjustBalance(t, ['price', 'volume', 'fee']);
       });
 

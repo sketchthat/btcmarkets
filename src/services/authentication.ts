@@ -9,7 +9,8 @@ export function createHmac(
   privateApiKey: string,
   qs?: object,
   body?: object,
-): HmacResponse { // , post?: object
+  v2?: boolean,
+): HmacResponse {
   qs = buildParams(qs);
 
   const nonce = new Date().valueOf();
@@ -18,8 +19,7 @@ export function createHmac(
     path,
   ];
 
-  if (path.match(/^\/v2\//)) {
-    // v2 Authentication
+  if (v2) { // v2 Authentication
     const stringQs = querystring.stringify(qs);
 
     if (Object.keys(qs).length > 0) {
