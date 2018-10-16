@@ -10,7 +10,7 @@ Typescript / Node wrapper for the Market, Public, Account and Trade APIs offered
 Install the dependancies with npm / yarn.
 
 ```
-npm install btcmarkets --save
+npm install btcmarkets-australia --save
 ```
 
 ### API Key
@@ -22,7 +22,7 @@ In order to utilise the private functions you'll need to generate an [API Key](h
 If using public methods api keys don't need to be passed to the constructor.
 
 ```
-import { BTCMarkets } from '@sketchthat/btcmarkets';
+import { BTCMarkets } from 'btcmarkets-australia';
 
 const btcm = new BTCMarkets('myPublicApiKey', 'myPrivateApiKey');
 ```
