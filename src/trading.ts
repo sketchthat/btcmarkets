@@ -31,6 +31,7 @@ export class Trading {
     orderSide: CreateOrderSideType,
     ordertype: CreateOrdertypeType,
     clientRequestId: string,
+    triggerPrice?: number,
   ): Promise<Create> {
     const body = {
       instrument: instrument.toUpperCase(),
@@ -40,7 +41,12 @@ export class Trading {
       orderSide,
       ordertype,
       clientRequestId,
+      triggerPrice: this.common.convertFigure(true, triggerPrice),
     };
+
+    if (ordertype !== 'Stop Limit') {
+      delete body.triggerPrice;
+    }
 
     const r = createHmac('/order/create', this.publicKey, this.privateKey, null, body);
 

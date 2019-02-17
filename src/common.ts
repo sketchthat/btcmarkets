@@ -4,7 +4,7 @@ import * as rp from 'request-promise';
 import { HmacHeaders } from './interfaces/hmacResponse.interface';
 
 export class Common {
-  private accountFloat: number;
+  public accountFloat: number;
   private uri: string;
 
   constructor() {

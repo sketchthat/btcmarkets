@@ -1,4 +1,5 @@
 import { Account } from './account';
+import { Common } from './common';
 import { FundTransfer } from './fundTransfer';
 import { Market } from './market';
 import { Trading } from './trading';
@@ -10,6 +11,7 @@ export class BTCMarkets {
   private marketClass: Market;
   private tradingClass: Trading;
   private transactionClass: Transaction;
+  private commonClass: Common;
 
   constructor(
     publicKey?: string,
@@ -20,6 +22,7 @@ export class BTCMarkets {
     this.marketClass = new Market();
     this.tradingClass = new Trading(publicKey, privateKey);
     this.transactionClass = new Transaction(publicKey, privateKey);
+    this.commonClass = new Common();
   }
 
   public account() {
@@ -40,5 +43,9 @@ export class BTCMarkets {
 
   public transaction() {
     return this.transactionClass;
+  }
+
+  public getFloat() {
+    return this.commonClass.accountFloat;
   }
 }
