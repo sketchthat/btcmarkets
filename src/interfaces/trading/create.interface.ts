@@ -6,4 +6,4 @@ export interface Create extends CommonResponseV2 {
 }
 
 export type CreateOrderSideType = 'Bid' | 'Ask';
-export type CreateOrdertypeType = 'Limit' | 'Market';
+export type CreateOrdertypeType = 'Limit' | 'Market' | 'Stop Limit';

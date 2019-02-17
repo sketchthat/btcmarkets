@@ -259,4 +259,17 @@ describe('Index', () => {
 
     assert.strictEqual(hmacStub.callCount, 1);
   });
+
+  it('should call getFloat', async () => {
+    const btcm = new BTCMarkets('MyApiKey', 'MySecretKey');
+
+    const resp = btcm.getFloat();
+
+    const expectedResponse = 100000000;
+
+    assert.strictEqual(resp, expectedResponse);
+
+    assert.strictEqual(rpStub.callCount, 0);
+    assert.strictEqual(hmacStub.callCount, 0);
+  });
 });
