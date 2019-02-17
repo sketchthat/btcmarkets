@@ -9,10 +9,12 @@ export declare class BTCMarkets {
     private marketClass;
     private tradingClass;
     private transactionClass;
+    private commonClass;
     constructor(publicKey?: string, privateKey?: string);
     account(): Account;
     fundTransfer(): FundTransfer;
     market(): Market;
     trading(): Trading;
     transaction(): Transaction;
+    getFloat(): number;
 }

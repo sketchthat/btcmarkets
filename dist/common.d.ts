@@ -1,6 +1,6 @@
 import { HmacHeaders } from './interfaces/hmacResponse.interface';
 export declare class Common {
-    private accountFloat;
+    accountFloat: number;
     private uri;
     constructor();
     request(method: string, path: string, qs?: object, body?: object, headers?: HmacHeaders): Promise<any>;
