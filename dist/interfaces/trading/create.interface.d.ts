@@ -4,4 +4,4 @@ export interface Create extends CommonResponseV2 {
     clientRequestId: string;
 }
 export declare type CreateOrderSideType = 'Bid' | 'Ask';
-export declare type CreateOrdertypeType = 'Limit' | 'Market';
+export declare type CreateOrdertypeType = 'Limit' | 'Market' | 'Stop Limit';
