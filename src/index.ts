@@ -25,27 +25,27 @@ export class BTCMarkets {
     this.commonClass = new Common();
   }
 
-  public account() {
+  public account(): Account {
     return this.accountClass;
   }
 
-  public fundTransfer() {
+  public fundTransfer(): FundTransfer {
     return this.fundTransferClass;
   }
 
-  public market() {
+  public market(): Market {
     return this.marketClass;
   }
 
-  public trading() {
+  public trading(): Trading {
     return this.tradingClass;
   }
 
-  public transaction() {
+  public transaction(): Transaction {
     return this.transactionClass;
   }
 
-  public getFloat() {
+  public getFloat(): number {
     return this.commonClass.accountFloat;
   }
 }
